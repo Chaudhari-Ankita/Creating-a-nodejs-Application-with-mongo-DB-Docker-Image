@@ -15,7 +15,7 @@ app.get('/', function (req, res) {
   });
 
 app.get('/profile-picture', function (req, res) {
-  let img = fs.readFileSync(path.join(__dirname, "images/profile-1.jpg"));
+  let img = fs.readFileSync(path.join(__dirname, "images/prof1.jpg"));
   res.writeHead(200, {'Content-Type': 'image/jpg' });
   res.end(img, 'binary');
 });
@@ -30,7 +30,7 @@ let mongoUrlDocker = "mongodb://admin:passw@mongodb";
 let mongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 // "user-account" in demo with docker. "my-db" in demo with docker-compose
-let databaseName = "my-db";
+let databaseName = "UserAccount";
 
 app.post('/update-profile', function (req, res) {
   let userObj = req.body;
@@ -44,7 +44,7 @@ app.post('/update-profile', function (req, res) {
     let myquery = { userid: 1 };
     let newvalues = { $set: userObj };
 
-    db.collection("users").updateOne(myquery, newvalues, {upsert: true}, function(err, res) {
+    db.collection("Users").updateOne(myquery, newvalues, {upsert: true}, function(err, res) {
       if (err) throw err;
       client.close();
     });
@@ -64,7 +64,7 @@ app.get('/get-profile', function (req, res) {
 
     let myquery = { userid: 1 };
 
-    db.collection("users").findOne(myquery, function (err, result) {
+    db.collection("Users").findOne(myquery, function (err, result) {
       if (err) throw err;
       response = result;
       client.close();
